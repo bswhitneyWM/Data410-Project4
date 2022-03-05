@@ -5,8 +5,9 @@ My name is Bryce Whitney and this page details my experiments for project 4 in A
 ## Concrete Dataset
 
 For all the analysis I used the [Concrete Compressive Strength Data Set](https://archive.ics.uci.edu/ml/datasets/concrete+compressive+strength) to train the  models and compare the results. The structure of the data can be seen below:
-
-![]("ConcreteDataFrame.png")
+<p align="center">
+  ![](ConcreteDataFrame.png)
+</p>
 
 In this dataset, the dependent variable we are trying to model is the `Concrete compressive strength`. All the other features are used as the input variables in X. As you can see, the features have a wide range of scales that they are measured on. Some features such as `Coarse Aggregate` have measurements over 1000, while other variables such as `Superplasticizer` don't reach the double digit threshold. To account for this, I normalized the training and testing data before passing it into the regressors.
 
