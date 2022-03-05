@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+# Project 4
 
-You can use the [editor on GitHub](https://github.com/bswhitneyWM/Data410-Project4/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+My name is Bryce Whitney and this page details my experiments for project 4 in Advanced Applied Machine Learning. This page includes testing different regressor combinations in boosting and analyzing the effectiveness of each method, along with a theoretical discussion and application of LightGBM.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Concrete Dataset
 
-### Markdown
+For all the analysis I used the [Concrete Compressive Strength Data Set](https://archive.ics.uci.edu/ml/datasets/concrete+compressive+strength) to train the  models and compare the results. The structure of the data can be seen below:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![]("ConcreteDataFrame.png")
 
-```markdown
-Syntax highlighted code block
+In this dataset, the dependent variable we are trying to model is the `Concrete compressive strength`. All the other features are used as the input variables in X. As you can see, the features have a wide range of scales that they are measured on. Some features such as `Coarse Aggregate` have measurements over 1000, while other variables such as `Superplasticizer` don't reach the double digit threshold. To account for this, I normalized the training and testing data before passing it into the regressors.
 
-# Header 1
-## Header 2
-### Header 3
+## Regressor Boosting Combinations
 
-- Bulleted
-- List
+# LightGBM
 
-1. Numbered
-2. List
+## Theorteical Discussion
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/bswhitneyWM/Data410-Project4/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Application
