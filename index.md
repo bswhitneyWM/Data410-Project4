@@ -16,4 +16,43 @@ In this dataset, the dependent variable we are trying to model is the `Concrete 
 
 ## Theorteical Discussion
 
+Light Gradient Boosted Machine, or LightGBM for short, ...
+
 ## Application
+
+Similar to the Boosted Regressions conducted above, I did a corssvalidation with 5 splits to measure the effectiveness of the LightGBM algorithm for predicting the compressive strength of concrete. I measured both the MSE and MAE and recorded the crossvalidated means at the end. 
+
+```python
+import lightgbm as lgb
+
+n_splits = 5
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=410)
+
+mse = []
+mae = []
+
+for idxTrain, idxTest in kf.split(X):
+    Xtrain, Xtest = X[idxTrain], X[idxTest]
+    ytrain, ytest = y[idxTrain], y[idxTest]
+    
+    # Scale the data
+    scale = StandardScaler()
+    Xtrain_ss = scale.fit_transform(Xtrain)
+    Xtest_ss = scale.transform(Xtest)
+    
+    # Fit the model and make predictions
+    model = lgb.LGBMRegressor(random_state = 410)
+    model.fit(Xtrain_ss, ytrain)
+    y_pred = model.predict(Xtest_ss)
+
+    mse.append(mean_squared_error(ytest, y_pred))
+    mae.append(mean_absolute_error(ytest, y_pred))
+    
+print("Crossvalidated MSE for LightGBM: ", np.mean(mse))
+print("Crossvalidated MAE for LightGBM: ", np.mean(mae))
+```
+The results from the experiment are as follows: \
+**Crossvalidated MSE: 20.389** \
+**Crossvalidated MAE: 2.977**
+
+TODO: Compare to the results above
