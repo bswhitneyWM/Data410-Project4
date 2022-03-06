@@ -12,6 +12,11 @@ In this dataset, the dependent variable we are trying to model is the `Concrete 
 
 ## Regressor Boosting Combinations
 
+
+## Conclusion
+- Talk about best combination - mention how it isn't exhaustive
+- Talk about why RF may be the best booster, because it is an ensemble method
+
 # LightGBM
 
 ## Theorteical Discussion
