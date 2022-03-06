@@ -69,15 +69,35 @@ The results from the experiment are as follows: \
 **Crossvalidated MAE: 2.502**
 
 ### Lowess Regression / Random Forest
+Naturally the next step was to try the multiple boosting with the locally weighted regression instead of the base linear regression. For the locally weighted regression, I used the Tricubic kernel function and set tau to 0.2. The random forest model used was the exact same model used in the above combination. After conducting a 10-fold crossvalidation, the results from the experiment were: \
+**Crossvalidated MSE: 16.443** \
+**Crossvalidated MAE: 2.453**
+
+These errors were slightly worse than the linear regression, but still very competitive. Perhaps more precise tuning of the kernel and tau values would result in errors more comparable with the linear regression and random forest combination. 
 
 ### Lowess Regression / Ridge Regression
+Next I wanted to try boosting with a different regression model than the random forest, so I decided to boost the locally weighted regression with a ridge regression. I was very curious to see if this was effective or not, because Ridge regressions are typically used for regularization and preventing overfitting. I used the default ridge regression model and set tau to 0.2 with the Tricubic kernel for the locally weighted regression. The results were: \
+**Crossvalidated MSE: 84.398** \
+**Crossvalidated MAE: 7.226**
+
+It is safe to say this experiment was a complete failure. No matter how much parameter tuning I tried, there errors were astronomical compared to the other multiple boosting combinations I tried. Even though this combination didn't generate a good model, sometimes knowing what doesn't work is equally as important as knowing what does work. In general, it seems regression models with regularization might not perform well when it comes to boosting algorithms. I test this theory again with the next combination.  
 
 ### Random Forest / Elastic Net
+So far random forest seems to be a great model for boosting other regressors, while models such as ridge regression, lasso regression, and elastic net with regularization terms in the cost function do not look promising. While more than two experiments are needed to confirm or deny the theory, I figured I would try again to make sure the last one wasn't a fluke. For this experiment I decided to make random forest the primary regressor and boost it with an elastic net model. The results were: \
+**Crossvalidated MSE: 22.913** \
+**Crossvalidated MAE: 3.268**
+
+This experiment was much less of a disaster than the last one, but the results are still a little underwhelming. With variations of linear regression boosted with random forest, the multiple boosting combinations were able to achieve mean squared errors in the mid teens. Since the MSE of this combination is nearly 23, it would not be considered a competitive model with the concrete data set. 
 
 ### Elastic Net / Random Forest
+Finally I wanted to see if the order of the regressors in multiple boosting played an important role in the performance of the model. To test this out, I performed the same experiment as the previous one but switched the order of elastic net and random forest. So now the elastic net regressor is being boosted by the random forest regressor. The results were: \
+**Crossvalidated MSE: 17.535** \
+**Crossvalidated MAE: 2.621**
+
+This clearly indicates that the order of regressors in multiple boosting algorithms is very important. This makes sense conceptually, as one of the main assumptions in boosting is that the first regressor is a weak learner. If this is not the case, then boosting will likely cause your model to be overfit. This may be what happened in the previous experiment, as random forest is an ensemble model made up of many "weak" decision trees.
 
 ## Conclusion
-- TODO: Talk about best combination
+There were two combinations that clearly performed the best. The **linear regression and random forest** combination had the smallest MSE and combined error (MSE + MAE). The **locally weighted regression and random forest** combination resulted in the lowest crossvalidated MAE. This makes sense as we discovered through experimentation that regularized regressors don't tend to perform well and random forest is one of the most viable options when choosing a regrossor to be used for boosting.  
 
 The combinations above are only a small sample of all the possibilities when it comes to multiple boosting alorithms. Much more time and experimentation would be necessary to generate concrete, exhaustive results. For example, only one random seed was used throughout all the analysis and the choice of this seed could impact the results; ideally the methods would be compared across multiple random seeds to effectively eliminate the impact randomness has on the results. For this reason, I believe there is some value in comparing the regressors head to head, but it is more valuable to look at large scale trends. 
 
