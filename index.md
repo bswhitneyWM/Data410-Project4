@@ -67,6 +67,4 @@ Out of curiosity I decided to do some more experimenting with LightGBM and tried
 **Crossvalidated MSE: 16.247** \
 **Crossvalidated MAE: 2.501**
 
-This highlights the power of using boosting to improve regression models, and that combining a lot of "weak learners" together to make a single model is an extremely viable and effective machine learning strategy. The experiments conducted for this project only scratch the surface of all the analysis that could be done, but gives good insight to the usefulness of boosting and some of the best guidelines to follow when implementing it.  
-
-TODO: Explore how it did when boosted with Random Forest
+This highlights the power of using boosting to improve regression models, and that combining a lot of "weak learners" together to make a single model is an extremely viable and effective machine learning strategy. The experiments conducted for this project only scratch the surface of all the analysis that could be done, but gives good insight to the usefulness of boosting and some of the best guidelines to follow when implementing it.
