@@ -21,7 +21,7 @@ In this dataset, the dependent variable we are trying to model is the `Concrete 
 
 ## Theorteical Discussion
 
-Light Gradient Boosted Machine, or LightGBM for short, ...
+Light Gradient Boosted Machine, or LightGBM for short, is an open gradient boosting framework for machine learning. 
 
 ## Application
 
@@ -57,7 +57,16 @@ print("Crossvalidated MSE for LightGBM: ", np.mean(mse))
 print("Crossvalidated MAE for LightGBM: ", np.mean(mae))
 ```
 The results from the experiment are as follows: \
-**Crossvalidated MSE: 20.389** \
-**Crossvalidated MAE: 2.977**
+**Crossvalidated MSE: 18.733** \
+**Crossvalidated MAE: 2.846**
 
 TODO: Compare to the results above
+TODO: Talk about how I didn't do much parameter tuning
+
+Out of curiosity I decided to do some more experimenting with LightGBM and tried boosting it with a random forest regressor. The process was the exact same for all the boosting combinations described above. This significantly improved the reulsts and made it more competitive with the boosted models explored above. By boosting with a random forest, the new errors were: \
+**Crossvalidated MSE: 16.247** \
+**Crossvalidated MAE: 2.501**
+
+This highlights the power of using boosting to improve regression models, and that combining a lot of "weak learners" together to make a single model is an extremely viable and effective machine learning strategy. The experiments conducted for this project only scratch the surface of all the analysis that could be done, but gives good insight to the usefulness of boosting and some of the best guidelines to follow when implementing it.  
+
+TODO: Explore how it did when boosted with Random Forest
