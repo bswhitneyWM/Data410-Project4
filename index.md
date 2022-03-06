@@ -109,6 +109,8 @@ The combinations above are only a small sample of all the possibilities when it 
 
 Light Gradient Boosted Machine, or LightGBM for short, is an open gradient boosting framework for machine learning. 
 
+Another resource with a clear and in-depth explanation can be found [here](https://www.geeksforgeeks.org/lightgbm-light-gradient-boosting-machine/#:~:text=LightGBM%20is%20a%20gradient%20boosting,model%20and%20reduces%20memory%20usage.&text=Gradient%2Dbased%20One%20Side%20Sampling%20Technique%20for%20LightGBM%3A,the%20computation%20of%20information%20gain.).
+
 ## Application
 
 Similar to the Boosted Regressions conducted above, I did a corssvalidation with 5 splits to measure the effectiveness of the LightGBM algorithm for predicting the compressive strength of concrete. I measured both the MSE and MAE and recorded the crossvalidated means at the end. 
