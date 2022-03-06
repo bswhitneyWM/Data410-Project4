@@ -146,10 +146,7 @@ The results from the experiment are as follows: \
 **Crossvalidated MSE: 18.733** \
 **Crossvalidated MAE: 2.846**
 
-TODO: Compare to the results above
-TODO: Talk about how I didn't do much parameter tuning
-
-Out of curiosity I decided to do some more experimenting with LightGBM and tried boosting it with a random forest regressor. The process was the exact same for all the boosting combinations described above. This significantly improved the reulsts and made it more competitive with the boosted models explored above. By boosting with a random forest, the new errors were: \
+These results alone would make it an average model compared to the models we experimented with for boosting. WHile these results could likely be improved a little bit with hyperparameter tuning, it likely would not be enough to make it the best model of the bunch. Out of curiosity I decided to do some more experimenting with LightGBM and tried boosting it with a random forest regressor. The process was the exact same for all the boosting combinations described above. This significantly improved the reulsts and made it more competitive with the boosted models explored above. By boosting with a random forest, the new errors were: \
 **Crossvalidated MSE: 16.247** \
 **Crossvalidated MAE: 2.501**
 
