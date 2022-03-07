@@ -107,9 +107,13 @@ The combinations above are only a small sample of all the possibilities when it 
 
 ## Theorteical Discussion
 
-Light Gradient Boosted Machine, or LightGBM for short, is an open gradient boosting framework for machine learning. 
+Light Gradient Boosted Machine, or LightGBM for short, is an open gradient boosting framework for machine learning. In particular, it uses tree-based learning techniques similar to those seen in decision trees and random forests to model the relationship between variables. There is one major difference between the tree-based learning algorithm, and it is that LightGBM grows the tree leaf-wise instead of level-wise. This means when the tree is being constructed, it always chooses to split the leaf node that will lead to the greatest gain in accuracy for the model. In other words, it will split the leaf that will result in the loss function decreasing by the largest amount. If there are no leaves that result in a more accurate model or the thresholds determined by hyperparameters have been reached, the tree will not split anymore. The difference between a level-wise construction and a leaf-wise construction is shown below:
 
-Another resource with a clear and in-depth explanation can be found [here](https://www.geeksforgeeks.org/lightgbm-light-gradient-boosting-machine/#:~:text=LightGBM%20is%20a%20gradient%20boosting,model%20and%20reduces%20memory%20usage.&text=Gradient%2Dbased%20One%20Side%20Sampling%20Technique%20for%20LightGBM%3A,the%20computation%20of%20information%20gain.).
+![](tree.png)
+
+If a tree was constructed to its full depth, there will be no difference between a leaf-wise construction and a level-wise construction. The only difference between the two is the order in which the tree is constructed. However, in many scenarios researchers or analysts do not build trees to their full depth which means the order in which it is constructued is very important. Since a leaf-wise method uses accuracy as it's splitting criteria, it often times generates a competitive model with low error faster than a tree constructed using a level-wise method would.  
+
+One of the biggest difficulties with using LightGBM is choosing the proper hyperparameters for the model. There are tons of hyperparameters to mess around with and it is difficult to know which ones are important to the model's performance and which ones have minimal impact. Similar to decision trees, the max depth of the tree and the minimum amount of data needed in each leaf node are some of the key hyperparameters for tuning the model. A resource with clear and in-depth descriptions of the most relevant hyperparameters can be found [here](https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc).
 
 ## Application
 
