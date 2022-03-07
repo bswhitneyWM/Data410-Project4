@@ -8,12 +8,12 @@ For all the analysis I used the [Concrete Compressive Strength Data Set](https:/
   
 ![](ConcreteDataFrame.png)
 
-In this dataset, the dependent variable we are trying to model is the `Concrete compressive strength`. All the other features are used as the input variables in X. As you can see, the features have a wide range of scales that they are measured on. Some features such as `Coarse Aggregate` have measurements over 1000, while other variables such as `Superplasticizer` don't reach the double digit threshold. To account for this, I normalized the training and testing data before passing it into the regressors.
+In this dataset, the dependent variable we are trying to model is the `Concrete compressive strength`. All the other features are used as the input variables in X. As you can see, the features have a wide range of scales that they are measured on. Some features such as `Coarse Aggregate` have measurements over 1000, while other variables such as `Superplasticizer` don't reach the double-digit threshold. To account for this, I normalized the training and testing data before passing it into the regressors.
 
 ## Regressor Boosting Combinations
 
 ### Linear Regression / Random Forest
-The goal of the project was to make a multiple boosting algorithm for different combinations of regressors, and compare the crossvalidated results afterwards. To start, I tried the simplest combination I could think of: **A linear regression boosted with a random forest**. This required me to slightly change the boosting function from class, as that was designed around the locally weighted regression we developed in class. The change is shown in the code below, and every other combination of regressors used for multiple boosting followed the same structure, with the only difference being the regressor that was being used.
+The goal of the project was to make a multiple boosting algorithm for different combinations of regressors and compare the crossvalidated results afterwards. To start, I tried the simplest combination I could think of: **A linear regression boosted with a random forest**. This required me to slightly change the boosting function from class, as that was designed around the locally weighted regression we developed in class. The change is shown in the code below, and every other combination of regressors used for multiple boosting followed the same structure, with the only difference being the regressor that was being used.
 
 ```python
 def LR_booster(X,y,xnew,model_boosting,nboost):
@@ -33,7 +33,7 @@ def LR_booster(X,y,xnew,model_boosting,nboost):
     return output_new
 ```
 
-Unfortunately for this project I did not have the time and computing power to sweep for the best hyperparameters for each of the models I was using. Instead I just manually tuned the hyperparameters, such as the number of estimators in a random forest or the number of times boosting would occur, until I couldn't easily improve the results. For every multiple boosting combination of regressors, I performed a 10-fold crossvalidation and recorded the average mean squared error (MSE) and mean absolute error (MAE). The code for the linear regression and random forest combination is shown below, and all the other combinations followed the same structure with the only change being the regressors that were being used in the multiple boosting. 
+Unfortunately for this project I did not have the time and computing power to sweep for the best hyperparameters for each of the models I was using. Instead, I just manually tuned the hyperparameters, such as the number of estimators in a random forest or the number of times boosting would occur, until I couldn't easily improve the results. For every multiple boosting combination of regressors, I performed a 10-fold crossvalidation and recorded the average mean squared error (MSE) and mean absolute error (MAE). The code for the linear regression and random forest combination is shown below, and all the other combinations followed the same structure with the only change being the regressors that were being used in the multiple boosting. 
 
 ```python
 # Set Hyperparameters
@@ -87,21 +87,21 @@ So far random forest seems to be a great model for boosting other regressors, wh
 **Crossvalidated MSE: 22.913** \
 **Crossvalidated MAE: 3.268**
 
-This experiment was much less of a disaster than the last one, but the results are still a little underwhelming. With variations of linear regression boosted with random forest, the multiple boosting combinations were able to achieve mean squared errors in the mid teens. Since the MSE of this combination is nearly 23, it would not be considered a competitive model with the concrete data set. 
+This experiment was much less of a disaster than the last one, but the results are still a little underwhelming. With variations of linear regression boosted with random forest, the multiple boosting combinations were able to achieve mean squared errors in the mid-teens. Since the MSE of this combination is nearly 23, it would not be considered a competitive model with the concrete data set. 
 
 ### Elastic Net / Random Forest
-Finally I wanted to see if the order of the regressors in multiple boosting played an important role in the performance of the model. To test this out, I performed the same experiment as the previous one but switched the order of elastic net and random forest. So now the elastic net regressor is being boosted by the random forest regressor. The results were: \
+Finally, I wanted to see if the order of the regressors in multiple boosting played an important role in the performance of the model. To test this out, I performed the same experiment as the previous one but switched the order of elastic net and random forest. So now the elastic net regressor is being boosted by the random forest regressor. The results were: \
 **Crossvalidated MSE: 17.535** \
 **Crossvalidated MAE: 2.621**
 
 This clearly indicates that the order of regressors in multiple boosting algorithms is very important. This makes sense conceptually, as one of the main assumptions in boosting is that the first regressor is a weak learner. If this is not the case, then boosting will likely cause your model to be overfit. This may be what happened in the previous experiment, as random forest is an ensemble model made up of many "weak" decision trees.
 
 ## Conclusion
-There were two combinations that clearly performed the best. The **linear regression and random forest** combination had the smallest MSE and combined error (MSE + MAE). The **locally weighted regression and random forest** combination resulted in the lowest crossvalidated MAE. This makes sense as we discovered through experimentation that regularized regressors don't tend to perform well and random forest is one of the most viable options when choosing a regrossor to be used for boosting.  
+There were two combinations that clearly performed the best. The **linear regression and random forest** combination had the smallest MSE and combined error (MSE + MAE). The **locally weighted regression and random forest** combination resulted in the lowest crossvalidated MAE. This makes sense as we discovered through experimentation that regularized regressors don't tend to perform well and random forest is one of the most viable options when choosing a regressor to be used for boosting.  
 
-The combinations above are only a small sample of all the possibilities when it comes to multiple boosting alorithms. Much more time and experimentation would be necessary to generate concrete, exhaustive results. For example, only one random seed was used throughout all the analysis and the choice of this seed could impact the results; ideally the methods would be compared across multiple random seeds to effectively eliminate the impact randomness has on the results. For this reason, I believe there is some value in comparing the regressors head to head, but it is more valuable to look at large scale trends. 
+The combinations above are only a small sample of all the possibilities when it comes to multiple boosting algorithms. Much more time and experimentation would be necessary to generate concrete, exhaustive results. For example, only one random seed was used throughout all the analysis and the choice of this seed could impact the results; ideally the methods would be compared across multiple random seeds to effectively eliminate the impact randomness has on the results. For this reason, I believe there is some value in comparing the regressors head to head, but it is more valuable to look at large scale trends. 
 
-**One of the things I noticed is that multiple boosting tended to perform the best when a regressor was boosted with a random forest**. The combinations without a random forest as the second regressor in the boosting algorithm performed noticeably worse than the combinations that used the random forest for boosting. I believe the improved performance is due to the ensemble nature of the random forest. It combines a bunch of decision trees together to make one really strong regression model. A major theme throughout the semester has been that combining a bunch of weak learners together can make a string regression model, and this is essentially what random forest is doing. That is why I believe it tends to be the best regression model to use for multiple boosting. 
+**One of the things I noticed is that multiple boosting tended to perform the best when a regressor was boosted with a random forest**. The combinations without a random forest as the second regressor in the boosting algorithm performed noticeably worse than the combinations that used the random forest for boosting. I believe the improved performance is due to the ensemble nature of the random forest. It combines a bunch of decision trees together to make one strong regression model. A major theme throughout the semester has been that combining a bunch of weak learners together can make a string regression model, and this is essentially what random forest is doing. That is why I believe it tends to be the best regression model to use for multiple boosting. 
 
 # LightGBM
 
@@ -111,13 +111,13 @@ Light Gradient Boosted Machine, or LightGBM for short, is an open gradient boost
 
 ![](tree.png)
 
-If a tree was constructed to its full depth, there will be no difference between a leaf-wise construction and a level-wise construction. The only difference between the two is the order in which the tree is constructed. However, in many scenarios researchers or analysts do not build trees to their full depth which means the order in which it is constructued is very important. Since a leaf-wise method uses accuracy as it's splitting criteria, it often times generates a competitive model with low error faster than a tree constructed using a level-wise method would.  
+If a tree was constructed to its full depth, there will be no difference between a leaf-wise construction and a level-wise construction. The only difference between the two is the order in which the tree is constructed. However, in many scenarios researchers or analysts do not build trees to their full depth which means the order in which it is constructed is very important. Since a leaf-wise method uses accuracy as it's splitting criteria, it often generates a competitive model with low error faster than a tree constructed using a level-wise method would.  
 
 One of the biggest difficulties with using LightGBM is choosing the proper hyperparameters for the model. There are tons of hyperparameters to mess around with and it is difficult to know which ones are important to the model's performance and which ones have minimal impact. Similar to decision trees, the max depth of the tree and the minimum amount of data needed in each leaf node are some of the key hyperparameters for tuning the model. A resource with clear and in-depth descriptions of the most relevant hyperparameters can be found [here](https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc).
 
 ## Application
 
-Similar to the Boosted Regressions conducted above, I did a corssvalidation with 5 splits to measure the effectiveness of the LightGBM algorithm for predicting the compressive strength of concrete. I measured both the MSE and MAE and recorded the crossvalidated means at the end. 
+Similar to the Boosted Regressions conducted above, I did a crossvalidation with 5 splits to measure the effectiveness of the LightGBM algorithm for predicting the compressive strength of concrete. I measured both the MSE and MAE and recorded the crossvalidated means at the end. 
 
 ```python
 import lightgbm as lgb
@@ -152,7 +152,7 @@ The results from the experiment are as follows: \
 **Crossvalidated MSE: 18.733** \
 **Crossvalidated MAE: 2.846**
 
-These results alone would make it an average model compared to the models we experimented with for boosting. While these results could likely be improved a little bit with hyperparameter tuning, it likely would not be enough to make it the best model of the bunch. Out of curiosity I decided to do some more experimenting with LightGBM and tried boosting it with a random forest regressor. The process was the exact same for all the boosting combinations described above. This significantly improved the reulsts and made it more competitive with the boosted models explored above. By boosting with a random forest, the new errors were: \
+These results alone would make it an average model compared to the models we experimented with for boosting. While these results could likely be improved a little bit with hyperparameter tuning, it likely would not be enough to make it the best model of the bunch. Out of curiosity I decided to do some more experimenting with LightGBM and tried boosting it with a random forest regressor. The process was the exact same for all the boosting combinations described above. This significantly improved the results and made it more competitive with the boosted models explored above. By boosting with a random forest, the new errors were: \
 **Crossvalidated MSE: 16.247** \
 **Crossvalidated MAE: 2.501**
 
